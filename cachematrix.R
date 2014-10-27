@@ -1,25 +1,28 @@
 # Matrix inversion is usually a costly computation and their may be some benefit to
 # caching the inverse of a matrix rather than compute it repeatedly.
 
-# makeCacheMatrix: This function creates a list containing a function for:
-# * Set the value of the matrix
-# * Get the value of the matrix
-# * Set the value of inverse of the matrix
-# * Get the value of inverse of the matrix
-makeCacheMatrix <- function(x = matrix()) {
-  i <- NULL
-
-  set <- function(y) {
-    x <<- y
-    i <<- NULL
+# makeCacheMatrix: This function creates a matrix for the input of the
+# cacheSolve() function.
+makeCacheMatrix <- function(original.matrix = matrix()) {
+  
+  if (!is.matrix(original.matrix)) {
+    stop("Please give a matrix")
   }
-
-  get <- function() x
-
-  setinverse <- function(inverse) i <<- inverse
-  getinverse <- function() i
-
-  list(set=set, get=get, setinverse=setinverse, getinverse=getinverse)
+  
+  inverted.matrix <- NULL
+  set <- function(y) {
+    original.matrix <<- y
+    inverted.matrix <<- NULL
+  }
+  
+  # Functions for getting and setting cached inv. matrix value
+  get <- function() original.matrix
+  
+  # Inversing the matrix using build in solve() function in R
+  set.inverse <- function(solve) inverted.matrix <<- solve
+  get.inverse <- function() inverted.matrix
+  
+  list(set=set, get=get, set.inverse=set.inverse, get.inverse=get.inverse)
 }
 # Example:
 # x = matrix(c(0,1,1,0), 2)
@@ -32,17 +35,18 @@ makeCacheMatrix <- function(x = matrix()) {
 
 # cacheSolve: This function returns the inverse of a matrix. It checks if
 # the inverse has been cached before.
-cacheSolve <- function(x, ...) {
-  i <- x$getinverse()
-  if(!is.null(i)) {
-    message("Getting cached vector...")
-    return(i)
+cacheSolve <- function(cacheable.matrix, ...) {
+  inverted.matrix <- cacheable.matrix$get.inverse()
+  
+  if(!is.null(inverted.matrix)) {
+    message("Getting cached inverse matrix")
+    return(inverted.matrix)
   }
 
-  d <- x$get()
-  i <- solve(d)
-  x$setinverse(i)
-  i
+  matrix.to.inverse <- cacheable.matrix$get()
+  inverted.matrix <- solve(matrix.to.inverse)
+  cacheable.matrix$set.inverse(inverted.matrix)
+  inverted.matrix
 }
 # Example:
 # x = matrix(c(0,1,1,0), 2)
