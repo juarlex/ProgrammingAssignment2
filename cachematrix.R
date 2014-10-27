@@ -6,7 +6,7 @@
 makeCacheMatrix <- function(original.matrix = matrix()) {
   
   if (!is.matrix(original.matrix)) {
-    stop("Please give a matrix")
+    stop("Please give me a matrix")
   }
   
   inverted.matrix <- NULL
@@ -39,7 +39,7 @@ cacheSolve <- function(cacheable.matrix, ...) {
   inverted.matrix <- cacheable.matrix$get.inverse()
   
   if(!is.null(inverted.matrix)) {
-    message("Getting cached inverse matrix")
+    message("Getting cached inverted matrix...")
     return(inverted.matrix)
   }
 
@@ -58,7 +58,7 @@ cacheSolve <- function(cacheable.matrix, ...) {
 # [2,]    1    0
 #
 # cacheSolve(c)
-# getting cached vector..
+# Getting cached inverted matrix...
 #        [,1] [,2]
 # [1,]    0    1
 # [2,]    1    0
