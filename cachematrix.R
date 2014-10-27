@@ -25,6 +25,10 @@ makeCacheMatrix <- function(x = matrix()) {
 # x = matrix(c(0,1,1,0), 2)
 # c = makeCacheMatrix(x)
 # c$get()
+# 
+#       [,1] [,2]
+# [1,]    0    1
+# [2,]    1    0
 
 # This function returns the inverse of a matrix. It checks if
 # the inverse has been cached before.
@@ -45,3 +49,12 @@ cacheSolve <- function(x, ...) {
 # c = makeCacheMatrix(x)
 # c$get()
 # cacheSolve(c)
+#       [,1] [,2]
+# [1,]    0    1
+# [2,]    1    0
+#
+# cacheSolve(c)
+# getting cached vector..
+#        [,1] [,2]
+# [1,]    0    1
+# [2,]    1    0
